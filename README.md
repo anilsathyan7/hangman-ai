@@ -54,7 +54,7 @@ The final Hangman title dataset combines two TMDB sources:
 - Hugging Face dataset: `ada-datadruids/full_tmdb_movies_dataset`
 - TMDB [daily ID export files](https://developer.themoviedb.org/docs/daily-id-exports), used to refresh and extend the movie-title pool
 
-The cleaned title file is `datasets/hangman_dataset.csv`.
+The cleaned title file is `datasets/hangman_dataset.csv`. The same dataset is also available on Hugging Face as `ansat7/hangman_english`.
 
 `datasets/index.csv` is a separate single-word lookup file used during late-game guessing. It is not the main training dataset. It helps search possible words from a revealed pattern, using title words plus supporting word sources such as dictionary words, names, countries, brands, and animals.
 
