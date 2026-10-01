@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" role="img" aria-labelledby="title desc">
+  <title id="title">Minimal Hangman Drawing</title>
+  <desc id="desc">A simple black hangman gallows and figure on a white background.</desc>
+  <rect width="640" height="320" fill="#ffffff"/>
+  <g fill="none" stroke="#111111" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M130 282H360"/>
+    <path d="M190 282V48"/>
+    <path d="M190 48H390"/>
+    <path d="M390 48V86"/>
+    <circle cx="390" cy="119" r="33"/>
+    <path d="M390 152V225"/>
+    <path d="M390 176L344 208"/>
+    <path d="M390 176L436 208"/>
+    <path d="M390 225L352 266"/>
+    <path d="M390 225L428 266"/>
+  </g>
+</svg>

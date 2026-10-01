@@ -2,6 +2,8 @@
 
 Can a language model solve Hangman when the hidden phrase is a movie title? That is the question behind this project. Movie titles have enough structure to learn from, but they are also messy in useful ways: short words, names, rare letters, odd spellings, and titles that do not behave like plain dictionary English. The goal is to see how far simple guessing, character-level models, and a little search can go in that setting.
 
+![Minimal Hangman drawing](assets/hangman_minimal.svg)
+
 ## Game
 
 Hangman is a word guessing game. One player thinks of a word or phrase, and the other player guesses one letter at a time. Correct guesses reveal all matching positions. Wrong guesses count as failures. The game ends when the phrase is solved or the failure limit is reached.
