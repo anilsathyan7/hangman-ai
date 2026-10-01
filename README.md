@@ -204,7 +204,7 @@ The main SlimBERT training settings are:
 
 | Setting | Value |
 | --- | --- |
-| Script | `train_slimbert_multitask.py` |
+| Script | `train_slimbert_hangman.py` |
 | Batch size | `1024` |
 | Epochs | `130` |
 | Learning rate | `3e-4` |
@@ -216,7 +216,7 @@ The main SlimBERT training settings are:
 Run:
 
 ```bash
-python3 train_slimbert_multitask.py \
+python3 train_slimbert_hangman.py \
   --dataset-name datasets/hangman_dataset.csv \
   --output-dir hangman_slimbert \
   --run-name hangman-slimbert \
@@ -241,7 +241,7 @@ The main CANINE training settings are:
 
 | Setting | Value |
 | --- | --- |
-| Script | `train_canine_multitask.py` |
+| Script | `train_canine_hangman.py` |
 | Batch size | `256` |
 | Gradient accumulation | `2` |
 | Epochs | `130` |
@@ -255,7 +255,7 @@ The main CANINE training settings are:
 Run:
 
 ```bash
-python3 train_canine_multitask.py \
+python3 train_canine_hangman.py \
   --dataset-name datasets/hangman_dataset.csv \
   --output-dir hangman_canine \
   --run-name hangman-canine \
@@ -422,7 +422,7 @@ Steps:
 Run SlimBERT with the late-game index fallback:
 
 ```bash
-python3 eval_slimbert_multitask.py \
+python3 eval_slimbert_hangman.py \
   --use-index \
   --index-late-fails 2
 ```
@@ -430,7 +430,7 @@ python3 eval_slimbert_multitask.py \
 Run CANINE with the late-game index fallback:
 
 ```bash
-python3 eval_canine_multitask.py \
+python3 eval_canine_hangman.py \
   --use-index \
   --index-late-fails 2
 ```
@@ -482,14 +482,14 @@ Latest saved gameplay results:
 Use these commands for a quick manual game with the saved checkpoints. They are useful for checking one title without running the full test split.
 
 ```bash
-python3 test_multitask.py \
+python3 test_hangman.py \
   --model slimbert \
   --use-index \
   --index-late-fails 2 \
   --secret "GENUINE EXPERIENCE" \
   --pattern "_EN__NE E__E__EN_E"
 
-python3 test_multitask.py \
+python3 test_hangman.py \
   --model canine \
   --use-index \
   --index-late-fails 2 \

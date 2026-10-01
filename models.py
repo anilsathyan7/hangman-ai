@@ -51,7 +51,7 @@ class HangmanSlimBERT(nn.Module):
         labels=None,
         letter_labels=None,
     ) -> dict:
-        """Run one multitask forward pass.
+        """Run one Hangman forward pass.
 
         Args:
             input_ids: SlimBERT token ids for the current board.
@@ -168,7 +168,7 @@ class HangmanCANINE(nn.Module):
         labels=None,
         letter_labels=None,
     ) -> dict:
-        """Run one CANINE multitask forward pass.
+        """Run one CANINE Hangman forward pass.
 
         Args:
             input_ids: CANINE tokenizer ids for the current board.

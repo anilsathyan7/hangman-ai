@@ -16,7 +16,7 @@ from models import HangmanCANINE
 tokenizer = CanineTokenizer.from_pretrained(CANINE_MODEL_NAME)
 
 
-def hangman_canine_multitask_collator(batch: list[dict]) -> dict:
+def hangman_canine_collator(batch: list[dict]) -> dict:
     """Tokenize patterns and keep MLM, letter, and missed-letter tensors.
 
     Args:
@@ -156,7 +156,7 @@ if __name__ == "__main__":
         args=training_args,
         train_dataset=train_hangman,
         eval_dataset=val_hangman,
-        data_collator=hangman_canine_multitask_collator,
+        data_collator=hangman_canine_collator,
         compute_metrics=compute_metrics,
     )
 

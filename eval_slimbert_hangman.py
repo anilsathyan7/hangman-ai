@@ -6,13 +6,13 @@ from tqdm import tqdm
 
 from config import DATASET_NAME
 from data import build_hangman_dataset
-from test_multitask import CANINE_MODEL_DIR
-from test_multitask import HangmanCANINEPlayer
-from test_multitask import HangmanPlayer
+from test_hangman import HangmanPlayer
+from test_hangman import HangmanSlimBERTPlayer
+from test_hangman import SLIMBERT_MODEL_DIR
 
 
 FAILURE_DIR = Path("eval_failures")
-MODEL_NAME = "canine"
+MODEL_NAME = "slimbert"
 
 
 def weight_label(value: float) -> str:
@@ -116,25 +116,22 @@ def evaluate(
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset-name", default=DATASET_NAME)
-    parser.add_argument("--model-dir", default=CANINE_MODEL_DIR)
+    parser.add_argument("--model-dir", default=SLIMBERT_MODEL_DIR)
     parser.add_argument("--max-fails", type=int, default=8)
     parser.add_argument("--letter-weight", type=float, default=0.0)
     parser.add_argument("--mlm-weight", type=float, default=1.0)
-    parser.add_argument("--use-lora", action="store_true")
-    parser.add_argument("--no-lora", dest="use_lora", action="store_false")
     parser.add_argument("--use-index", action="store_true")
     parser.add_argument("--index-late-fails", type=int, default=2)
     parser.add_argument("--max-index-candidates", type=int, default=200)
-    parser.set_defaults(use_lora=False)
     args = parser.parse_args()
 
-    player = HangmanCANINEPlayer(
+    player = HangmanSlimBERTPlayer(
         model_dir=args.model_dir,
         letter_weight=args.letter_weight,
         mlm_weight=args.mlm_weight,
-        use_lora=args.use_lora,
         use_index=args.use_index,
         index_late_fails=args.index_late_fails,
         max_index_candidates=args.max_index_candidates,
     )
+
     evaluate(player, dataset_name=args.dataset_name, max_fails=args.max_fails)

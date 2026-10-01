@@ -21,7 +21,7 @@ CANINE_MODEL_DIR = "checkpoints/canine"
 
 
 class HangmanPlayer:
-    """Shared Hangman play loop for multitask models."""
+    """Shared Hangman play loop for Hangman models."""
 
     def __init__(
         self,
@@ -356,7 +356,7 @@ class HangmanPlayer:
 
 
 class HangmanSlimBERTPlayer(HangmanPlayer):
-    """Play Hangman with a trained SlimBERT multitask checkpoint."""
+    """Play Hangman with a trained SlimBERT Hangman checkpoint."""
 
     def __init__(
         self,
@@ -430,7 +430,7 @@ class HangmanSlimBERTPlayer(HangmanPlayer):
 
 
 class HangmanCANINEPlayer(HangmanPlayer):
-    """Play Hangman with a trained CANINE multitask checkpoint."""
+    """Play Hangman with a trained CANINE Hangman checkpoint."""
 
     def __init__(
         self,
