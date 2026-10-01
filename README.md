@@ -1,12 +1,14 @@
 # Hangman
 
-## Hangman: Game
+Can a language model solve Hangman when the hidden phrase is a movie title? That is the question behind this project. Movie titles have enough structure to learn from, but they are also messy in useful ways: short words, names, rare letters, odd spellings, and titles that do not behave like plain dictionary English. The goal is to see how far simple guessing, character-level models, and a little search can go in that setting.
+
+## Game
 
 Hangman is a word guessing game. One player thinks of a word or phrase, and the other player guesses one letter at a time. Correct guesses reveal all matching positions. Wrong guesses count as failures. The game ends when the phrase is solved or the failure limit is reached.
 
 In this project, the hidden phrase is an English movie title. The board starts with at least one letter revealed in every word, and the player must guess the remaining letters. Spaces are already known, and guesses are made over `A-Z` only.
 
-## Hangman: Strategies
+## Strategies
 
 The game can be played with a few simple baselines before moving to learned models.
 
@@ -23,7 +25,7 @@ Since every word starts with at least one revealed letter, the best case is solv
 
 The main experiments in this project focus on the learned language-model strategy.
 
-## Hangman: Dataset
+## Dataset
 
 The final Hangman title dataset combines two TMDB sources:
 
@@ -82,7 +84,7 @@ During play, the model scores the next unguessed letter, the board is updated, a
 
 Titles have different lengths, so examples are padded only when a batch is created. Padding keeps tensors the same length inside the batch and is ignored by the model loss.
 
-## Hangman: Models
+## Models
 
 We compare two character-level models for the learned strategy. SlimBERT is a small model trained from scratch on the movie-title dataset. CANINE is Google’s pretrained `google/canine-c` character model, adapted to the same Hangman setup.
 
@@ -133,7 +135,7 @@ Main features:
 
 CANINE can also be trained with LoRA. In that setup the full model is still loaded, but only about `3.18M` parameters are trainable.
 
-## Hangman: Design Choices
+## Design Choices
 
 The main design idea is to make the model see the same information a Hangman player sees: the board, the revealed letters, and the wrong guesses so far.
 
@@ -147,7 +149,7 @@ The main design idea is to make the model see the same information a Hangman pla
 | Pretrained CANINE | Starts from Google's character-level `google/canine-c` model. | Tests whether pretrained character knowledge helps compared with training from scratch. |
 | Custom SlimBERT | Uses a small BERT-style model with the exact Hangman vocabulary. | Keeps experiments fast, simple, and focused on `A-Z`, space, `[MASK]`, and `[PAD]`. |
 
-## Hangman: Training
+## Training
 
 Training uses Hugging Face `Trainer` for both models. The title split is fixed at `80/10/10` for train, validation, and test. Training boards are generated dynamically, so the same title can appear with different revealed letters and missed guesses across epochs. Validation boards are fixed with a seed, which makes runs comparable.
 
@@ -246,7 +248,7 @@ Args:
 
 The best full CANINE checkpoint so far is `checkpoints/canine/checkpoint-123480` from epoch `126`, with `eval_loss=0.9735`, `masked_accuracy=0.7342`, and `top1_accuracy=0.9244`.
 
-## Hangman: Play
+## Play
 
 At play time, the model is used as a next-letter guesser. The game keeps three pieces of state: the current board, the guessed letters, and the missed letters.
 
@@ -340,7 +342,7 @@ Chosen guess: T
 Updated board after hit: T_E _ATRI_
 ```
 
-## Hangman: Fallback
+## Fallback
 
 The fallback is a small word lookup used near the end of a game. The model still makes the normal guesses. The lookup only helps when a word has enough revealed letters that the remaining candidates are narrow.
 
@@ -373,7 +375,7 @@ Updated word after hit: WAD
 
 When enabled, it does not replace the model for the whole game. It only nudges late guesses when the candidate set is useful.
 
-## Hangman: Evaluation Suite
+## Evaluation Suite
 
 The evaluation suite runs complete Hangman games on the fixed test split. This is separate from the Trainer validation metrics: here the model must play the game step by step, update the board after every guess, and stay within the failure limit.
 
@@ -442,7 +444,7 @@ Latest saved gameplay results:
 
 The full CANINE model has the best validation metrics, but SlimBERT still has the better saved gameplay result in this evaluation setup.
 
-## Hangman: Observations
+## Observations
 
 - SlimBERT inference is fast enough for interactive play. From eval throughput, one letter guess is roughly `1-2 ms` on GPU for the SlimBERT model.
 - At inference time, the MLM head gave the best overall gameplay results. The best saved SlimBERT run used `letter=0.0`, `mlm=1.0`.
@@ -478,7 +480,7 @@ python3 test_multitask.py \
 - The common hard cases were ambiguous short endings such as `_AD`, noisy tokens such as `YZY` or `BLKBX`, and foreign/transliterated words.
 - Many late misses were names, acronyms, brands, or rare final letters like `V`, `K`, `W`, `Z`, and `J`.
 
-## Hangman: Limitations
+## Limitations
 
 The current setup keeps the game simple and learnable, but it still has a few limits.
 
@@ -487,7 +489,7 @@ The current setup keeps the game simple and learnable, but it still has a few li
 - Some boards have multiple valid completions. For example, `_AD` could be `BAD`, `DAD`, `HAD`, or `WAD`. Frequency and popularity can help, but they cannot guarantee the selected title.
 - The game has a hard fail limit. Even if the model narrows the answer late, it can still lose after spending too many guesses on plausible alternatives.
 
-## Hangman: Future Plans
+## Future Plans
 
 - Train separate models for early, middle, and late game states, then route each board to the best model for that stage.
 - Use self-play to generate harder training states. The current model can play games, record its wrong guesses, and turn those failure states into new training examples.
