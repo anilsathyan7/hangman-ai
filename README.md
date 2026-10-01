@@ -276,6 +276,17 @@ Args:
 
 The best CANINE checkpoint so far is `checkpoints/canine/checkpoint-123480` from epoch `126`, with `eval_loss=0.9735`, `masked_accuracy=0.7342`, and `top1_accuracy=0.9244`.
 
+### Training Curves
+
+The loss plot keeps train and validation loss together for each model. The accuracy plot compares the validation metrics across SlimBERT and CANINE.
+
+![Training and validation loss](plots/training_loss.svg)
+
+![Validation accuracy](plots/validation_accuracy.svg)
+
+- CANINE ends with better validation loss and accuracy, but the gap is smaller in gameplay than in validation.
+- Both models were still improving near the end, though the gains had become gradual.
+
 ## Play
 
 At play time, the model is used as a next-letter guesser. The game keeps three pieces of state: the current board, the guessed letters, and the missed letters.
@@ -474,8 +485,9 @@ Latest saved gameplay results:
 
 1. SlimBERT is fast enough for interactive play. Based on evaluation throughput, one letter guess is roughly `1-2 ms` on GPU, so the model can be used comfortably in a step-by-step game loop.
 2. The MLM head was the stronger signal during inference. The best saved SlimBERT gameplay run used `letter=0.0`, `mlm=1.0`, which means the position-wise hidden-letter probabilities were more useful than the separate 26-way letter head for choosing the next guess.
-3. CANINE reached the best validation metrics: `eval_loss=0.9735`, `masked_accuracy=0.7342`, and `top1_accuracy=0.9244`. Even so, SlimBERT still has the better saved gameplay result in this evaluation setup. The CANINE LoRA run did not beat SlimBERT; it can be reported separately if a stronger LoRA checkpoint is trained later.
-4. Most remaining failures are not ordinary English-pattern misses. They are usually rare, noisy, or title-specific words, such as `YAKUZA`, `ONTKOPPELING`, or `PARHELION`. Longer training was still improving accuracy, but the gains became small near the end.
+3. The index fallback helped a lot in late-game states. For SlimBERT, failures dropped from `1,366` to `445`, improving win rate from `0.9689` to `0.9899`. For CANINE, failures dropped from `3,560` to `1,078`, improving win rate from `0.9189` to `0.9754`.
+4. CANINE reached the best validation metrics: `eval_loss=0.9735`, `masked_accuracy=0.7342`, and `top1_accuracy=0.9244`. Even so, SlimBERT still has the better saved gameplay result in this evaluation setup. The CANINE LoRA run did not beat SlimBERT; it can be reported separately if a stronger LoRA checkpoint is trained later.
+5. Most remaining failures are not ordinary English-pattern misses. They are usually rare, noisy, or title-specific words, such as `YAKUZA`, `ONTKOPPELING`, or `PARHELION`. Longer training was still improving accuracy, but the gains became small near the end.
 
 ### Test Runs
 
