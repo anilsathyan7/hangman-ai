@@ -1,0 +1,27 @@
+[project]
+name = "hangman"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "accelerate>=1.15.0",
+    "datasets>=4.0.0",
+    "evaluate>=0.2.0",
+    "huggingface-hub>=1.32.0",
+    "pandas>=2.3.0",
+    "peft>=0.13.0",
+    "torch>=2.14.0",
+    "torchvision>=0.29.0",
+    "transformers[sentencepiece]>=5.17.0",
+    "wandb>=0.30.0",
+]
+
+[[tool.uv.index]]
+name = "pytorch-cu132"
+url = "https://download.pytorch.org/whl/cu132"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu132" }
+torchvision = { index = "pytorch-cu132" }

@@ -1,0 +1,33 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+
+# Local cache/log files
+.cache/
+*.log
+*.tmp
+.DS_Store
+
+# Local agent/tool state
+.agents/
+.codex/
+
+# Training/evaluation logs
+wandb/
+eval_failures/
+
+# Model checkpoint/output directories
+checkpoints/
+hangman_slimbert_*/
+hangman_canine_*/
