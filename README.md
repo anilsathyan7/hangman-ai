@@ -468,17 +468,12 @@ Latest saved gameplay results:
 | CANINE full | `letter=0.0`, `mlm=1.0` | Off | `43,896` | `8` | `3,560` | `0.9189` |
 | CANINE full | `letter=0.0`, `mlm=1.0` | Index on, late `2` | `43,896` | `8` | `1,078` | `0.9754` |
 
-The full CANINE model has the best validation metrics, but SlimBERT still has the better saved gameplay result in this evaluation setup.
-
 ## Observations
 
-- SlimBERT inference is fast enough for interactive play. From eval throughput, one letter guess is roughly `1-2 ms` on GPU for the SlimBERT model.
-- At inference time, the MLM head gave the best overall gameplay results. The best saved SlimBERT run used `letter=0.0`, `mlm=1.0`.
-- The full CANINE run now has the best validation metrics: `eval_loss=0.9735`, `masked_accuracy=0.7342`, and `top1_accuracy=0.9244`.
-- The CANINE LoRA run did not beat SlimBERT, but full CANINE fine-tuning did.
-- The four gameplay results above were rerun in the same recent eval window, so they compare the current checkpoints and code path directly.
-- The remaining failures are mostly rare, noisy, or title-specific words, such as `YAKUZA`, `ONTKOPPELING`, or `PARHELION`.
-- Longer training was still improving accuracy, but the gains became small near the end.
+1. SlimBERT is fast enough for interactive play. Based on evaluation throughput, one letter guess is roughly `1-2 ms` on GPU, so the model can be used comfortably in a step-by-step game loop.
+2. The MLM head was the stronger signal during inference. The best saved SlimBERT gameplay run used `letter=0.0`, `mlm=1.0`, which means the position-wise hidden-letter probabilities were more useful than the separate 26-way letter head for choosing the next guess.
+3. The full CANINE run reached the best validation metrics: `eval_loss=0.9735`, `masked_accuracy=0.7342`, and `top1_accuracy=0.9244`. Even so, SlimBERT still has the better saved gameplay result in this evaluation setup. The CANINE LoRA run also did not beat SlimBERT, while full CANINE fine-tuning was much stronger.
+4. Most remaining failures are not ordinary English-pattern misses. They are usually rare, noisy, or title-specific words, such as `YAKUZA`, `ONTKOPPELING`, or `PARHELION`. Longer training was still improving accuracy, but the gains became small near the end.
 
 ### Test Runs
 
