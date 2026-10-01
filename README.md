@@ -25,6 +25,28 @@ Since every word starts with at least one revealed letter, the best case is solv
 
 The main experiments in this project focus on the learned language-model strategy.
 
+## Setup
+
+The project uses Python `3.13` and `uv` for dependency management.
+
+```bash
+git clone https://github.com/anilsathyan7/hangman-ai.git
+cd hangman-ai
+uv sync
+```
+
+Download the trained checkpoints before running play or evaluation:
+
+```bash
+hf download ansat7/hangman-slimbert \
+  --local-dir checkpoints/slimbert
+
+hf download ansat7/hangman-canine \
+  --local-dir checkpoints/canine
+```
+
+A CUDA GPU is recommended for training and full evaluation. SlimBERT inference can run on CPU, but GPU is much faster for large eval runs and CANINE.
+
 ## Dataset
 
 The final Hangman title dataset combines two TMDB sources:
@@ -134,6 +156,10 @@ Main features:
 | CANINE | `12` | `768` | `12` | `3,072` | `16,384` | `132.15M` |
 
 CANINE can also be trained with LoRA. In that setup the full model is still loaded, but only about `3.18M` parameters are trainable.
+
+### Trained Checkpoints
+
+Fully trained SlimBERT and CANINE checkpoints are published on Hugging Face. The Setup section shows how to download them into the local `checkpoints/` folders before running play or evaluation.
 
 ## Design Choices
 
