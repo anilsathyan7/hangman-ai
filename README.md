@@ -218,8 +218,8 @@ Run:
 ```bash
 python3 train_slimbert_multitask.py \
   --dataset-name datasets/hangman_dataset.csv \
-  --output-dir hangman_slimbert_late130 \
-  --run-name hangman-slimbert-late130 \
+  --output-dir hangman_slimbert \
+  --run-name hangman-slimbert \
   --epochs 130
 ```
 
@@ -257,8 +257,8 @@ Run:
 ```bash
 python3 train_canine_multitask.py \
   --dataset-name datasets/hangman_dataset.csv \
-  --output-dir hangman_canine_full_plateau \
-  --run-name hangman-canine-full-plateau \
+  --output-dir hangman_canine \
+  --run-name hangman-canine \
   --epochs 130
 ```
 
@@ -274,7 +274,7 @@ Args:
 - `--use-lora`: Train LoRA adapters instead of full fine-tuning.
 - `--resume-from-checkpoint`: Optional checkpoint path for continuing an interrupted run.
 
-The best full CANINE checkpoint so far is `checkpoints/canine/checkpoint-123480` from epoch `126`, with `eval_loss=0.9735`, `masked_accuracy=0.7342`, and `top1_accuracy=0.9244`.
+The best CANINE checkpoint so far is `checkpoints/canine/checkpoint-123480` from epoch `126`, with `eval_loss=0.9735`, `masked_accuracy=0.7342`, and `top1_accuracy=0.9244`.
 
 ## Play
 
@@ -459,7 +459,7 @@ Current best Trainer validation result:
 | Model | Checkpoint | Eval loss | Masked accuracy | Top-1 accuracy |
 | --- | --- | ---: | ---: | ---: |
 | SlimBERT | `checkpoints/slimbert/checkpoint-89830` | `1.0504` | `0.7056` | `0.9156` |
-| CANINE full | `checkpoints/canine/checkpoint-123480` | `0.9735` | `0.7342` | `0.9244` |
+| CANINE | `checkpoints/canine/checkpoint-123480` | `0.9735` | `0.7342` | `0.9244` |
 
 Latest saved gameplay results:
 
@@ -467,14 +467,14 @@ Latest saved gameplay results:
 | --- | --- | --- | ---: | ---: | ---: | ---: |
 | SlimBERT | `letter=0.0`, `mlm=1.0` | Off | `43,896` | `8` | `1,366` | `0.9689` |
 | SlimBERT | `letter=0.0`, `mlm=1.0` | Index on, late `2` | `43,896` | `8` | `445` | `0.9899` |
-| CANINE full | `letter=0.0`, `mlm=1.0` | Off | `43,896` | `8` | `3,560` | `0.9189` |
-| CANINE full | `letter=0.0`, `mlm=1.0` | Index on, late `2` | `43,896` | `8` | `1,078` | `0.9754` |
+| CANINE | `letter=0.0`, `mlm=1.0` | Off | `43,896` | `8` | `3,560` | `0.9189` |
+| CANINE | `letter=0.0`, `mlm=1.0` | Index on, late `2` | `43,896` | `8` | `1,078` | `0.9754` |
 
 ## Observations
 
 1. SlimBERT is fast enough for interactive play. Based on evaluation throughput, one letter guess is roughly `1-2 ms` on GPU, so the model can be used comfortably in a step-by-step game loop.
 2. The MLM head was the stronger signal during inference. The best saved SlimBERT gameplay run used `letter=0.0`, `mlm=1.0`, which means the position-wise hidden-letter probabilities were more useful than the separate 26-way letter head for choosing the next guess.
-3. The full CANINE run reached the best validation metrics: `eval_loss=0.9735`, `masked_accuracy=0.7342`, and `top1_accuracy=0.9244`. Even so, SlimBERT still has the better saved gameplay result in this evaluation setup. The CANINE LoRA run also did not beat SlimBERT, while full CANINE fine-tuning was much stronger.
+3. CANINE reached the best validation metrics: `eval_loss=0.9735`, `masked_accuracy=0.7342`, and `top1_accuracy=0.9244`. Even so, SlimBERT still has the better saved gameplay result in this evaluation setup. The CANINE LoRA run did not beat SlimBERT; it can be reported separately if a stronger LoRA checkpoint is trained later.
 4. Most remaining failures are not ordinary English-pattern misses. They are usually rare, noisy, or title-specific words, such as `YAKUZA`, `ONTKOPPELING`, or `PARHELION`. Longer training was still improving accuracy, but the gains became small near the end.
 
 ### Test Runs
