@@ -489,7 +489,7 @@ SlimBERT can be exported from its PyTorch checkpoint to ONNX for deployment in a
 - Outputs: MLM logits and 26-way letter-head logits for the normal game loop.
 - Board length: Dynamic from `1` to `80` characters.
 
-The optional FP16 copy converts supported internal weights and operations from FP32 to FP16 while keeping its inputs and outputs as FP32. FP16 reduces the model file size and can improve inference on a compatible GPU; use the FP32 model for CPU inference. The conversion uses the [ONNX Runtime FP16 utility](https://onnxruntime.ai/docs/performance/model-optimizations/float16.html).
+The optional FP16 copy converts supported internal weights and operations from FP32 to FP16 while keeping its inputs and outputs as FP32. FP16 reduces the model file size and can improve inference on a compatible GPU; use the FP32 model for CPU inference. The conversion follows [ONNX Runtime FP16 conversion](https://onnxruntime.ai/docs/performance/model-optimizations/float16.html).
 
 Export both versions:
 
@@ -566,3 +566,5 @@ The current setup keeps the game simple and learnable, but it still has a few li
 - [Wordplay Hangman](https://djdhillxn.github.io/projects/wordplay)
 - [CANINE Hangman solver](https://github.com/Tejas2507/Hangman-Solver-Hybrid-Ensemble-of-Specialized-Experts)
 - [Transformer Hangman solver](https://github.com/vsa1920/Hangman-with-Transformers)
+- [ONNX Exporter](https://docs.pytorch.org/docs/stable/onnx_export.html)
+- [ONNX Runtime](https://onnxruntime.ai/docs/performance/model-optimizations/float16.html)
