@@ -5,6 +5,8 @@ import string
 # Dataset and preprocessing settings.
 DATASET_NAME = "ada-datadruids/full_tmdb_movies_dataset"
 CANINE_MODEL_NAME = "google/canine-c"
+SLIMBERT_CHECKPOINT = "checkpoints/slimbert/checkpoint-89830"
+ONNX_MODEL_PATH = "exports/slimbert.onnx"
 MAX_TITLE_LENGTH = 80
 # Training samples can represent game states before the final allowed miss.
 MAX_MISSES = 7

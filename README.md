@@ -481,6 +481,32 @@ Latest saved gameplay results:
 | CANINE | `letter=0.0`, `mlm=1.0` | Off | `43,896` | `8` | `3,560` | `0.9189` |
 | CANINE | `letter=0.0`, `mlm=1.0` | Index on, late `2` | `43,896` | `8` | `1,078` | `0.9754` |
 
+## ONNX Export
+
+SlimBERT can be exported from its PyTorch checkpoint to ONNX for deployment in another runtime, such as ONNX Runtime or a browser application.
+
+- Inputs: `input_ids` for the board and `missed_letters` for wrong guesses.
+- Outputs: MLM logits and 26-way letter-head logits for the normal game loop.
+- Board length: Dynamic from `1` to `80` characters.
+
+The optional FP16 copy converts supported internal weights and operations from FP32 to FP16 while keeping its inputs and outputs as FP32. FP16 reduces the model file size and can improve inference on a compatible GPU; use the FP32 model for CPU inference. The conversion uses the [ONNX Runtime FP16 utility](https://onnxruntime.ai/docs/performance/model-optimizations/float16.html).
+
+Export both versions:
+
+```bash
+python3 export_slimbert_onnx.py \
+  --output exports/slimbert.onnx \
+  --fp16-output exports/slimbert_fp16.onnx
+```
+
+Run the exported FP16 model with the same player and optional index fallback:
+
+```bash
+python3 test_slimbert_onnx.py \
+  --onnx-model exports/slimbert_fp16.onnx \
+  --use-index
+```
+
 ## Observations
 
 1. SlimBERT is fast enough for interactive play. Based on evaluation throughput, one letter guess is roughly `1-2 ms` on GPU, so the model can be used comfortably in a step-by-step game loop.
