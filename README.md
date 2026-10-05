@@ -278,7 +278,7 @@ The best CANINE checkpoint so far is `checkpoints/canine/checkpoint-179660` from
 
 ### Training Curves
 
-The loss plot keeps train and validation loss together for each model. The accuracy plot compares the validation metrics across SlimBERT and CANINE.
+The loss plot keeps train and validation loss together for each model. The accuracy plot compares the validation metrics across SlimBERT and CANINE. The CANINE curves use the local-dataset epoch-130 checkpoint.
 
 ![Training and validation loss](plots/training_loss.svg)
 
