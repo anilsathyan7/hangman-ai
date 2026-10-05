@@ -548,7 +548,7 @@ python3 test_slimbert_onnx.py \
 1. SlimBERT is fast enough for interactive play. Based on evaluation throughput, one letter guess is roughly `1-2 ms` on GPU, so the model can be used comfortably in a step-by-step game loop.
 2. The MLM head was the stronger signal during inference. The best saved SlimBERT gameplay run used `letter=0.0`, `mlm=1.0`, which means the position-wise hidden-letter probabilities were more useful than the separate 26-way letter head for choosing the next guess.
 3. The index fallback helped a lot in late-game states. For SlimBERT, failures dropped from `1,366` to `445`, improving win rate from `0.9689` to `0.9899`. For CANINE, failures dropped from `4,262` to `1,269`, improving win rate from `0.9311` to `0.9795`.
-4. CANINE reached the best validation metrics: `eval_loss=0.8630`, `masked_accuracy=0.7677`, and `top1_accuracy=0.9380`. SlimBERT still has the better saved gameplay result in this evaluation setup. The CANINE LoRA run did not beat SlimBERT; it can be reported separately if a stronger LoRA checkpoint is trained later.
+4. CANINE reached the best validation metrics: `eval_loss=0.8630`, `masked_accuracy=0.7677`, and `top1_accuracy=0.9380`. SlimBERT still has the better saved gameplay result in this evaluation setup.
 5. Most remaining 8-miss losses are near-solves: about `70%` end with one letter still hidden after the fail budget is exhausted. Rare or title-specific words are a smaller secondary group. Longer training was still improving accuracy, but the gains became small near the end.
 6. In the 10/12-fail runs, the index removed about `70-75%` of failures. Raising the limit from `10` to `12` misses roughly halved the remaining failures for both models.
 
