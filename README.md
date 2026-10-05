@@ -494,6 +494,29 @@ Gameplay runs with 10 and 12 maximum fails use `letter=0.0`, `mlm=1.0` on the cu
 | CANINE | Off | `61,892` | `12` | `1,318` | `0.9787` |
 | CANINE | Index on, late `2` | `61,892` | `12` | `334` | `0.9946` |
 
+### Hard-Word Test
+
+The 25-word hard set focuses on unusual letter patterns such as `JAZZ`, `SYZYGY`, and `RHYTHM`. Each distinct letter is used once as the initially revealed letter, producing `106` deterministic game states. This is a stress test, not a replacement for the movie-title test split.
+
+| Max fails | Index | Model | Games | Failures | Win rate | Avg score |
+| ---: | --- | --- | ---: | ---: | ---: | ---: |
+| `8` | Off | SlimBERT | `106` | `63` | `0.4057` | `0.1851` |
+| `8` | Off | CANINE | `106` | `65` | `0.3868` | `0.1403` |
+| `8` | On | SlimBERT | `106` | `39` | `0.6321` | `0.2288` |
+| `8` | On | CANINE | `106` | `40` | `0.6226` | `0.1851` |
+| `10` | Off | SlimBERT | `106` | `49` | `0.5377` | `0.2491` |
+| `10` | Off | CANINE | `106` | `44` | `0.5849` | `0.2179` |
+| `10` | On | SlimBERT | `106` | `27` | `0.7453` | `0.2887` |
+| `10` | On | CANINE | `106` | `27` | `0.7453` | `0.2472` |
+| `12` | Off | SlimBERT | `106` | `26` | `0.7547` | `0.3247` |
+| `12` | Off | CANINE | `106` | `34` | `0.6792` | `0.2893` |
+| `12` | On | SlimBERT | `106` | `22` | `0.7925` | `0.3357` |
+| `12` | On | CANINE | `106` | `15` | `0.8585` | `0.3145` |
+
+- The late-game index improves the 8-miss win rate by about `22-24` percentage points for both models.
+- More allowed misses help substantially on these words; the strongest run is indexed CANINE at `12` misses, with `15 / 106` failures.
+- These results are intentionally much lower than the title-split results because the test set concentrates uncommon letters and awkward spelling patterns.
+
 ## ONNX Export
 
 SlimBERT can be exported from its PyTorch checkpoint to ONNX for deployment in another runtime, such as ONNX Runtime or a browser application.

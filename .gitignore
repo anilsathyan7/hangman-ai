@@ -27,6 +27,7 @@ wheels/
 # Training/evaluation logs
 wandb/
 eval_failures/
+eval_hard_results/
 
 # Model checkpoint/output directories
 checkpoints/
