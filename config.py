@@ -3,7 +3,7 @@ import string
 
 
 # Dataset and preprocessing settings.
-DATASET_NAME = "ada-datadruids/full_tmdb_movies_dataset"
+DATASET_NAME = "datasets/hangman_dataset.csv"
 CANINE_MODEL_NAME = "google/canine-c"
 SLIMBERT_CHECKPOINT = "checkpoints/slimbert/checkpoint-89830"
 ONNX_MODEL_PATH = "exports/slimbert.onnx"

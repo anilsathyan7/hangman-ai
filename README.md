@@ -225,7 +225,7 @@ python3 train_slimbert_hangman.py \
 
 Args:
 
-- `--dataset-name`: Local CSV path or Hugging Face dataset name.
+- `--dataset-name`: Local cleaned title CSV. Defaults to `datasets/hangman_dataset.csv`.
 - `--output-dir`: Folder where Trainer checkpoints are written.
 - `--run-name`: Weights & Biases run name.
 - `--epochs`: Total number of training epochs.
@@ -264,7 +264,7 @@ python3 train_canine_hangman.py \
 
 Args:
 
-- `--dataset-name`: Local CSV path or Hugging Face dataset name.
+- `--dataset-name`: Local cleaned title CSV. Defaults to `datasets/hangman_dataset.csv`.
 - `--output-dir`: Folder where Trainer checkpoints are written.
 - `--run-name`: Weights & Biases run name.
 - `--epochs`: Total number of training epochs.
@@ -274,7 +274,7 @@ Args:
 - `--use-lora`: Train LoRA adapters instead of full fine-tuning.
 - `--resume-from-checkpoint`: Optional checkpoint path for continuing an interrupted run.
 
-The best CANINE checkpoint so far is `checkpoints/canine/checkpoint-123480` from epoch `126`, with `eval_loss=0.9735`, `masked_accuracy=0.7342`, and `top1_accuracy=0.9244`.
+The best CANINE checkpoint so far is `checkpoints/canine/checkpoint-179660` from epoch `130`, with `eval_loss=0.8630`, `masked_accuracy=0.7677`, and `top1_accuracy=0.9380`.
 
 ### Training Curves
 
@@ -448,7 +448,7 @@ python3 eval_canine_hangman.py \
 
 Args:
 
-- `--dataset-name`: Dataset used to rebuild the fixed test split.
+- `--dataset-name`: Local cleaned title CSV used to rebuild the fixed test split.
 - `--model-dir`: Checkpoint root to evaluate.
 - `--max-fails`: Wrong-guess limit per game.
 - `--letter-weight` and `--mlm-weight`: Blend the letter head and MLM head scores.
@@ -470,7 +470,7 @@ Current best Trainer validation result:
 | Model | Checkpoint | Eval loss | Masked accuracy | Top-1 accuracy |
 | --- | --- | ---: | ---: | ---: |
 | SlimBERT | `checkpoints/slimbert/checkpoint-89830` | `1.0504` | `0.7056` | `0.9156` |
-| CANINE | `checkpoints/canine/checkpoint-123480` | `0.9735` | `0.7342` | `0.9244` |
+| CANINE | `checkpoints/canine/checkpoint-179660` | `0.8630` | `0.7677` | `0.9380` |
 
 Latest saved gameplay results:
 
@@ -478,8 +478,21 @@ Latest saved gameplay results:
 | --- | --- | --- | ---: | ---: | ---: | ---: |
 | SlimBERT | `letter=0.0`, `mlm=1.0` | Off | `43,896` | `8` | `1,366` | `0.9689` |
 | SlimBERT | `letter=0.0`, `mlm=1.0` | Index on, late `2` | `43,896` | `8` | `445` | `0.9899` |
-| CANINE | `letter=0.0`, `mlm=1.0` | Off | `43,896` | `8` | `3,560` | `0.9189` |
-| CANINE | `letter=0.0`, `mlm=1.0` | Index on, late `2` | `43,896` | `8` | `1,078` | `0.9754` |
+| CANINE | `letter=0.0`, `mlm=1.0` | Off | `61,892` | `8` | `4,262` | `0.9311` |
+| CANINE | `letter=0.0`, `mlm=1.0` | Index on, late `2` | `61,892` | `8` | `1,269` | `0.9795` |
+
+Gameplay runs with 10 and 12 maximum fails use `letter=0.0`, `mlm=1.0` on the current fixed 61,892-title test split:
+
+| Model | Fallback | Games | Max fails | Failures | Win rate |
+| --- | --- | ---: | ---: | ---: | ---: |
+| SlimBERT | Off | `61,892` | `10` | `770` | `0.9876` |
+| SlimBERT | Index on, late `2` | `61,892` | `10` | `234` | `0.9962` |
+| CANINE | Off | `61,892` | `10` | `2,407` | `0.9611` |
+| CANINE | Index on, late `2` | `61,892` | `10` | `670` | `0.9892` |
+| SlimBERT | Off | `61,892` | `12` | `402` | `0.9935` |
+| SlimBERT | Index on, late `2` | `61,892` | `12` | `113` | `0.9982` |
+| CANINE | Off | `61,892` | `12` | `1,318` | `0.9787` |
+| CANINE | Index on, late `2` | `61,892` | `12` | `334` | `0.9946` |
 
 ## ONNX Export
 
@@ -511,9 +524,10 @@ python3 test_slimbert_onnx.py \
 
 1. SlimBERT is fast enough for interactive play. Based on evaluation throughput, one letter guess is roughly `1-2 ms` on GPU, so the model can be used comfortably in a step-by-step game loop.
 2. The MLM head was the stronger signal during inference. The best saved SlimBERT gameplay run used `letter=0.0`, `mlm=1.0`, which means the position-wise hidden-letter probabilities were more useful than the separate 26-way letter head for choosing the next guess.
-3. The index fallback helped a lot in late-game states. For SlimBERT, failures dropped from `1,366` to `445`, improving win rate from `0.9689` to `0.9899`. For CANINE, failures dropped from `3,560` to `1,078`, improving win rate from `0.9189` to `0.9754`.
-4. CANINE reached the best validation metrics: `eval_loss=0.9735`, `masked_accuracy=0.7342`, and `top1_accuracy=0.9244`. Even so, SlimBERT still has the better saved gameplay result in this evaluation setup. The CANINE LoRA run did not beat SlimBERT; it can be reported separately if a stronger LoRA checkpoint is trained later.
-5. Most remaining failures are not ordinary English-pattern misses. They are usually rare, noisy, or title-specific words, such as `YAKUZA`, `ONTKOPPELING`, or `PARHELION`. Longer training was still improving accuracy, but the gains became small near the end.
+3. The index fallback helped a lot in late-game states. For SlimBERT, failures dropped from `1,366` to `445`, improving win rate from `0.9689` to `0.9899`. For CANINE, failures dropped from `4,262` to `1,269`, improving win rate from `0.9311` to `0.9795`.
+4. CANINE reached the best validation metrics: `eval_loss=0.8630`, `masked_accuracy=0.7677`, and `top1_accuracy=0.9380`. SlimBERT still has the better saved gameplay result in this evaluation setup. The CANINE LoRA run did not beat SlimBERT; it can be reported separately if a stronger LoRA checkpoint is trained later.
+5. Most remaining 8-miss losses are near-solves: about `70%` end with one letter still hidden after the fail budget is exhausted. Rare or title-specific words are a smaller secondary group. Longer training was still improving accuracy, but the gains became small near the end.
+6. In the 10/12-fail runs, the index removed about `70-75%` of failures. Raising the limit from `10` to `12` misses roughly halved the remaining failures for both models.
 
 ### Test Runs
 
@@ -564,6 +578,7 @@ The current setup keeps the game simple and learnable, but it still has a few li
 - [Masked language modeling](https://huggingface.co/learn/llm-course/chapter7/3)
 - [N-gram language models](https://web.stanford.edu/~jurafsky/slp3/3.pdf)
 - [Wordplay Hangman](https://djdhillxn.github.io/projects/wordplay)
+- [25 Best Hangman Words](https://blog.wolfram.com/2010/08/13/25-best-hangman-words)
 - [CANINE Hangman solver](https://github.com/Tejas2507/Hangman-Solver-Hybrid-Ensemble-of-Specialized-Experts)
 - [Transformer Hangman solver](https://github.com/vsa1920/Hangman-with-Transformers)
 - [ONNX Exporter](https://docs.pytorch.org/docs/stable/onnx_export.html)

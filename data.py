@@ -214,7 +214,7 @@ def build_hangman_dataset(
     """Build train, validation, and test hangman datasets.
 
     Args:
-        dataset_name: Hugging Face dataset name to load.
+        dataset_name: Local cleaned CSV path or Hugging Face dataset name.
 
     Returns:
         Dictionary with "train", "val", and "test" HangmanTitleDataset objects.

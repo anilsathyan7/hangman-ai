@@ -17,6 +17,7 @@ wheels/
 .cache/
 *.log
 *.tmp
+/:memory:.ses
 .DS_Store
 
 # Local agent/tool state

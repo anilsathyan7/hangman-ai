@@ -34,7 +34,8 @@ def save_failures(
     )
     path = FAILURE_DIR / (
         f"{MODEL_NAME}_letter_{weight_label(player.letter_weight)}"
-        f"_mlm_{weight_label(player.mlm_weight)}{index_label}.json"
+        f"_mlm_{weight_label(player.mlm_weight)}_fails_{max_fails}"
+        f"{index_label}.json"
     )
     payload = {
         "letter_weight": player.letter_weight,
