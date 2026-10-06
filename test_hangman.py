@@ -514,8 +514,8 @@ def build_player(args: argparse.Namespace) -> HangmanPlayer:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", choices=["slimbert", "canine"], default="slimbert")
-    parser.add_argument("--secret", default="GENUINE EXPERIENCE")
-    parser.add_argument("--pattern", default="_EN__NE E__E__EN_E")
+    parser.add_argument("--secret", default="SLUMDOG AND MILLIONAIRE")
+    parser.add_argument("--pattern", default="S______ A__ M__________")
     parser.add_argument("--model-dir", default=None)
     parser.add_argument("--max-fails", type=int, default=8)
     parser.add_argument("--letter-weight", type=float, default=0.0)

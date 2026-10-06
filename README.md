@@ -543,6 +543,14 @@ python3 test_slimbert_onnx.py \
   --use-index
 ```
 
+## Deployment
+
+The exported SlimBERT model powers [Hangman AI](https://hangman-rho-ochre.vercel.app/), where you can challenge the model with a partially revealed movie title. The app is built with React and Vite, deployed on Vercel, and its codebase is in [hangman-web](hangman-web/).
+
+Inference runs locally in your browser through ONNX Runtime Web, using WebGPU when available and WebAssembly as a fallback. No separate inference server is needed.
+
+![Hangman web app](assets/hangman-web.png)
+
 ## Observations
 
 1. SlimBERT is fast enough for interactive play. Based on evaluation throughput, one letter guess is roughly `1-2 ms` on GPU, so the model can be used comfortably in a step-by-step game loop.
@@ -561,15 +569,15 @@ python3 test_hangman.py \
   --model slimbert \
   --use-index \
   --index-late-fails 2 \
-  --secret "GENUINE EXPERIENCE" \
-  --pattern "_EN__NE E__E__EN_E"
+  --secret "SLUMDOG AND MILLIONAIRE" \
+  --pattern "S______ A__ M__________"
 
 python3 test_hangman.py \
   --model canine \
   --use-index \
   --index-late-fails 2 \
-  --secret "QUIZ SHOW" \
-  --pattern "Q___ S___"
+  --secret "SLUMDOG AND MILLIONAIRE" \
+  --pattern "S______ A__ M__________"
 ```
 
 ### Failure Pattern
