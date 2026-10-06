@@ -99,6 +99,20 @@ def convert_to_fp16(input_path: str, output_path: str) -> None:
     output.parent.mkdir(parents=True, exist_ok=True)
     fp32_model = onnx.load(input_path)
     fp16_model = float16.convert_float_to_float16(fp32_model, keep_io_types=True)
+    output_types = {
+        value.name: value.type.tensor_type.elem_type
+        for value in (*fp16_model.graph.value_info, *fp16_model.graph.output)
+    }
+    # Keep internal Cast targets consistent with the converted tensor types.
+    for node in fp16_model.graph.node:
+        if (
+            node.op_type == "Cast"
+            and output_types.get(node.output[0]) == onnx.TensorProto.FLOAT16
+        ):
+            for attribute in node.attribute:
+                if attribute.name == "to" and attribute.i == onnx.TensorProto.FLOAT:
+                    attribute.i = onnx.TensorProto.FLOAT16
+    onnx.checker.check_model(fp16_model)
     onnx.save(fp16_model, output)
     print(f"Converted {input_path} -> {output}")
 

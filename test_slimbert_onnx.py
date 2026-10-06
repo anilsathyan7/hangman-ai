@@ -12,8 +12,7 @@ os.environ.setdefault("ORT_DISABLE_TELEMETRY", "1")
 
 import onnxruntime as ort
 
-from config import MASK_ID
-from config import ONNX_MODEL_PATH
+from config import MASK_ID, ONNX_MODEL_PATH
 from test_hangman import HangmanPlayer
 from test_hangman import HangmanSlimBERTPlayer
 

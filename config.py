@@ -7,6 +7,7 @@ DATASET_NAME = "datasets/hangman_dataset.csv"
 CANINE_MODEL_NAME = "google/canine-c"
 SLIMBERT_CHECKPOINT = "checkpoints/slimbert/checkpoint-89830"
 ONNX_MODEL_PATH = "exports/slimbert.onnx"
+ONNX_FP16_MODEL_PATH = "exports/slimbert_fp16.onnx"
 MAX_TITLE_LENGTH = 80
 # Training samples can represent game states before the final allowed miss.
 MAX_MISSES = 7
