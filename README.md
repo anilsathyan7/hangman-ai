@@ -545,11 +545,13 @@ python3 test_slimbert_onnx.py \
 
 ## Deployment
 
-The exported SlimBERT model powers [Hangman AI](https://hangman-rho-ochre.vercel.app/), where you can challenge the model with a partially revealed movie title. The app is built with React and Vite, deployed on Vercel, and its codebase is in [hangman-web](hangman-web/).
+The exported SlimBERT model powers [Hangman AI](https://hangman-rho-ochre.vercel.app/), where you can challenge the model with a partially revealed movie title. The app is built with **React**, **TypeScript**, and **Vite**, deployed on **Vercel**, and its codebase is in [hangman-web](hangman-web/).
 
-Inference runs locally in your browser through ONNX Runtime Web, using WebGPU when available and WebAssembly as a fallback. No separate inference server is needed.
+Inference runs locally in your browser through **ONNX Runtime Web**, using **WebGPU** when available and **WebAssembly** as a fallback. No separate inference server is needed.
 
 ![Hangman web app](assets/hangman-web.png)
+
+The web app can also be converted into and installed as an **Electron** desktop application for Ubuntu/Debian using the [build and install scripts](hangman-web/README.md#desktop-application).
 
 ## Observations
 
