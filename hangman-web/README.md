@@ -4,7 +4,7 @@ You know the movie! Can the AI figure it out? Pick a movie title, reveal a few l
 
 Play online: [Hangman AI](https://hangman-rho-ochre.vercel.app/)
 
-## Install and run
+## Install and Run
 
 Requires Node.js 20.19+ (20.x) or 22.12+ and npm. From the project folder:
 
@@ -26,7 +26,7 @@ npx vercel --prod
 
 Follow the setup prompts; choose **N** for Git integration to deploy manually. Keep the hidden `.vercel/` folder and run `npx vercel --prod` again after changes to update the same site.
 
-## Desktop application
+## Desktop Application
 
 Build an Electron desktop app for Ubuntu/Debian. Run from the parent `hangman/` folder:
 
