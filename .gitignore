@@ -33,3 +33,6 @@ eval_hard_results/
 checkpoints/
 hangman_slimbert_*/
 hangman_canine_*/
+
+# Desktop packages
+*.deb

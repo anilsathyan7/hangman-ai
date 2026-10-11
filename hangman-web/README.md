@@ -26,6 +26,31 @@ npx vercel --prod
 
 Follow the setup prompts; choose **N** for Git integration to deploy manually. Keep the hidden `.vercel/` folder and run `npx vercel --prod` again after changes to update the same site.
 
+## Desktop application
+
+Build an Electron desktop app for Ubuntu/Debian. Run from the parent `hangman/` folder:
+
+```sh
+# Build
+bash hangman-web/build-electron.sh hangman-web \
+  --app-name hangman-desktop \
+  --version 1.0.0 \
+  --cleanup
+
+# Install and launch
+bash hangman-web/install-electron.sh ./hangman-desktop_1.0.0_amd64.deb --launch
+```
+
+| Argument or option | Purpose |
+| --- | --- |
+| Web app directory | Source folder to build. |
+| `--app-name` | Desktop package and wrapper name. |
+| `--version X.Y.Z` | Desktop package version. |
+| `--output-name app.deb` | Custom DEB filename. |
+| `--cleanup` | Remove intermediate files after a successful build. |
+| DEB path | Package to install. |
+| `--launch` | Launch after installation using X11. |
+
 ## Game Play
 
 1. **Set the board** - Type letters, `_` for blanks, spaces between words. Backspace to delete.
